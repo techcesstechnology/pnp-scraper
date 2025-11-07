@@ -16,10 +16,10 @@ class PnpScraperPipeline:
         # Clean and process the price field
         if adapter.get('price'):
             price = adapter['price']
-            # Remove currency symbols, commas, and whitespace
-            # Extract numeric value from strings like "R 123.45" or "R123,45"
-            price_clean = re.sub(r'[R\s,]', '', price)
-            # Replace comma with dot for decimal point if needed
+            # Remove currency symbols and whitespace
+            # Extract numeric value from strings like "R 123.45" or "R 123,45"
+            price_clean = re.sub(r'[R\s]', '', price)
+            # Replace comma with dot for decimal separator (handles European format)
             price_clean = price_clean.replace(',', '.')
             try:
                 adapter['price'] = float(price_clean)

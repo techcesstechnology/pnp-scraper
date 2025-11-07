@@ -99,7 +99,8 @@ The spider in `pnp_scraper/spiders/pnp_spider.py` contains CSS selectors that ne
 
 - `parse()`: Main page parsing and link extraction
 - `parse_product()`: Product detail page parsing
-- `clean_price()`: Price text cleaning logic
+
+The price cleaning logic is handled by the pipeline in `pnp_scraper/pipelines.py`.
 
 ## Data Model
 
