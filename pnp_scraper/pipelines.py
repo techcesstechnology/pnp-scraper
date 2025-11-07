@@ -16,9 +16,11 @@ class PnpScraperPipeline:
         # Clean and process the price field
         if adapter.get('price'):
             price = adapter['price']
-            # Remove currency symbols and whitespace
+            # Remove currency symbol 'R' and whitespace from the beginning
             # Extract numeric value from strings like "R 123.45" or "R 123,45"
-            price_clean = re.sub(r'[R\s]', '', price)
+            price_clean = re.sub(r'^\s*R\s*', '', price).strip()
+            # Remove any remaining spaces (e.g., thousand separators like "1 234.56")
+            price_clean = price_clean.replace(' ', '')
             # Replace comma with dot for decimal separator (handles European format)
             price_clean = price_clean.replace(',', '.')
             try:

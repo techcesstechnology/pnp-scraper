@@ -23,13 +23,14 @@ class PnpSpider(scrapy.Spider):
         This is a template method that should be customized based on the actual
         PnP website structure.
         """
+        # TODO: Update these CSS selectors based on actual PnP website structure
         # Extract product links from the page
-        # Note: These selectors need to be adjusted based on actual website structure
         product_links = response.css('a.product-link::attr(href)').getall()
         
         for link in product_links:
             yield response.follow(link, callback=self.parse_product)
         
+        # TODO: Update pagination selector based on actual website structure
         # Handle pagination
         next_page = response.css('a.next-page::attr(href)').get()
         if next_page:
@@ -42,17 +43,19 @@ class PnpSpider(scrapy.Spider):
         try:
             item = PnpScraperItem()
             
+            # TODO: Update these CSS selectors based on actual PnP website structure
             # Extract product name
-            # Adjust selectors based on actual website structure
             name = response.css('h1.product-name::text').get()
             if not name:
                 name = response.css('h1::text').get()
             
+            # TODO: Update these CSS selectors based on actual PnP website structure
             # Extract price
             price = response.css('span.product-price::text').get()
             if not price:
                 price = response.css('.price::text').get()
             
+            # TODO: Update these CSS selectors based on actual PnP website structure
             # Extract image URL
             image_url = response.css('img.product-image::attr(src)').get()
             if not image_url:
