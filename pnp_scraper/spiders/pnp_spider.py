@@ -1,6 +1,5 @@
 import scrapy
 from pnp_scraper.items import PnpScraperItem
-import re
 
 
 class PnpSpider(scrapy.Spider):
@@ -64,7 +63,7 @@ class PnpSpider(scrapy.Spider):
                 item['name'] = name.strip()
             
             if price:
-                item['price'] = self.clean_price(price)
+                item['price'] = price.strip()
             
             if image_url:
                 # Handle relative URLs
@@ -78,23 +77,3 @@ class PnpSpider(scrapy.Spider):
                 
         except Exception as e:
             self.logger.error(f"Error parsing product at {response.url}: {str(e)}")
-    
-    def clean_price(self, price_text):
-        """
-        Clean price text to extract numeric value.
-        Handles various price formats like "R 123.45", "R123,45", etc.
-        """
-        if not price_text:
-            return None
-        
-        # Remove currency symbols, whitespace, and commas
-        price_clean = re.sub(r'[R\s,]', '', price_text.strip())
-        
-        # Handle decimal separators
-        price_clean = price_clean.replace(',', '.')
-        
-        try:
-            return price_clean
-        except ValueError:
-            self.logger.warning(f"Could not clean price: {price_text}")
-            return None
